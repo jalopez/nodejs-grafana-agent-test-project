@@ -1,0 +1,21 @@
+{
+  "name": "node-grafana-integrations-test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "4.17.2",
+    "prom-client": "14.0.1"
+  },
+  "scripts": {
+    "start": "concurrently yarn:start:*",
+    "start:node": "node index.js",
+    "start:agent": "docker run  -v /tmp/agent:/etc/agent/data -v ${PWD}/grafana-agent-config.yaml:/etc/agent/agent.yaml grafana/agent:v0.21.2",
+    "update-cloud-config": "env-cmd yarn docker-cloud-config",
+    "docker-cloud-config": "docker run grafana/agentctl:v0.21.2 cloud-config --stack=\"$GCLOUD_STACK_ID\" --api-key=$GCLOUD_API_KEY --api-url=$GCLOUD_API_URL > grafana-agent-config.yaml"
+  },
+  "devDependencies": {
+    "concurrently": "7.0.0",
+    "env-cmd": "10.1.0"
+  }
+}

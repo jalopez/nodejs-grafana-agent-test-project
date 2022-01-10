@@ -5,11 +5,14 @@
   "license": "MIT",
   "dependencies": {
     "express": "4.17.2",
+    "pino": "7.6.2",
+    "pino-http": "6.5.0",
+    "pino-pretty": "^7.3.0",
     "prom-client": "14.0.1"
   },
   "scripts": {
     "start": "docker-compose up",
-    "configure": "docker-compose run configure-env > grafana-agent-config.yaml"
+    "configure": "docker-compose run configure-env > config/grafana-agent-config.yaml"
   },
   "devDependencies": {
     "nodemon": "2.0.15"

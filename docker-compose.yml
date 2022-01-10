@@ -11,7 +11,8 @@ services:
     image: grafana/agent:v0.21.2
     volumes:
     - "/tmp/agent:/etc/agent/data"
-    - "${PWD}/grafana-agent-config.yaml:/etc/agent/agent.yaml"
+    - "${PWD}/config/grafana-agent-config.yaml:/etc/agent/agent.yaml"
+    - "${PWD}/log:/var/log/node"
     network_mode: host
 
   configure-env:

@@ -1,33 +1,22 @@
-import express from "express";
-import { collectDefaultMetrics, register, Counter } from "prom-client";
+import express from 'express';
 
-collectDefaultMetrics();
-
-const userAccess = new Counter({
-  name: "test_app_user_access",
-  help: "User accesses the app",
-});
+import { httpMiddleware, logger } from './logger.mjs';
+import { metricsEndpoint, userAccessCounter } from './metrics.mjs';
 
 const app = express();
+app.use(httpMiddleware);
 
-app.get("/", async (_req, res) => {
-  userAccess.inc();
+app.get('/', async (req, res) => {
+  userAccessCounter.inc();
   try {
-    res.set("Content-Type", "text/plain");
-    res.end("Hello World!");
+    res.set('Content-Type', 'text/plain');
+    res.end('Hello World!');
   } catch (err) {
     res.status(500).end(err);
   }
 });
 
-app.get("/metrics", async (_req, res) => {
-  try {
-    res.set("Content-Type", register.contentType);
-    res.end(await register.metrics());
-  } catch (err) {
-    res.status(500).end(err);
-  }
-});
+app.get('/metrics', metricsEndpoint);
 
-app.listen(4001, "0.0.0.0");
-console.log("Server listening on 0.0.0.0:4001");
+await app.listen(4001, '0.0.0.0');
+logger.info('Server listening on 0.0.0.0:4001');

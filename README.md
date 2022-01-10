@@ -5,7 +5,7 @@ etc. from a Node.js application.
 
 ### Prerequisites
 
-- You need to have a Grafana Cloud user with a stack.
+- You need to have a Grafana Cloud user (free tier is OK)
 - Install `docker` and `docker-compose`.
 
 ### Setup
